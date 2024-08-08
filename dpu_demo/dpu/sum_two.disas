@@ -1,0 +1,40 @@
+
+sum_two:	file format elf32-dpu
+
+
+Disassembly of section .text:
+
+80000000 <__bootstrap>:
+80000000: 06 00 00 83 73 3c 00 00      	jnz id, __sys_start_thread
+80000008: 00 00 00 46 e3 7c 00 00      	sd zero, 16, 0
+80000010: 00 80 00 00 e3 6b 00 00      	move r23, 256
+
+80000018 <__sys_atomic_bit_clear>:
+80000018: 06 00 8c 82 5f 3c 00 00      	jeq r23, 200, __sys_start_thread
+80000020: 05 00 00 80 5f 7c 00 00      	release r23, 0, nz, 0x80000028
+80000028: 03 00 ff 01 df 2f 00 00      	add r23, r23, -1, true, __sys_atomic_bit_clear
+
+80000030 <__sys_start_thread>:
+80000030: 08 00 00 82 73 3c 00 00      	jz id, 0x80000040
+80000038: 00 00 10 20 f3 7d 00 00      	boot id, 1
+80000040: 00 00 81 46 7f 7b 00 00      	ld d22, id8, 24
+80000048: 00 00 b0 00 e3 8b 00 00      	call r23, main
+
+80000050 <__sys_end>:
+80000050: 0a 00 00 21 f3 7e 00 00      	stop true, __sys_end
+
+80000058 <main>:
+; {
+80000058: 00 00 00 44 5b 7c 00 00      	sw r22, 0, 0
+;     int a = 1;
+80000060: 00 00 41 44 5b 7c 00 00      	sw r22, 4, 1
+;     int b = 3;
+80000068: 00 00 83 44 5b 7c 00 00      	sw r22, 8, 3
+;     int c = a + b;
+80000070: 00 00 40 44 5b 70 00 00      	lw r0, r22, 4
+80000078: 00 00 80 44 db 70 00 00      	lw r1, r22, 8
+80000080: 00 00 c2 00 00 0c 00 00      	add r0, r0, r1
+80000088: 00 00 c0 44 58 7c 00 00      	sw r22, 12, r0
+80000090: 00 00 00 00 63 60 00 00      	move r0, 0
+;     return 0;
+80000098: 00 00 00 00 5f 8c 00 00      	jump r23
